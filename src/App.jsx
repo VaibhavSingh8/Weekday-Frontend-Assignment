@@ -1,5 +1,3 @@
-import "./App.css";
-
 import SearchJob from "./pages/SearchJob";
 
 function App() {

@@ -8,7 +8,7 @@ const SearchJob = () => {
   myHeaders.append("Content-Type", "application/json");
 
   const body = JSON.stringify({
-    limit: 10,
+    limit: 9,
     offset: 0,
   });
 
@@ -32,15 +32,12 @@ const SearchJob = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  // console.log(data);
-
   return (
     <Box margin={2}>
       <Grid container spacing={4}>
-        {data?.jdList?.map((job, index) => {
-          return <JobCard key={index} job={job} />;
+        {data?.jdList?.map((job) => {
+          return <JobCard key={job?.jdUid} job={job} />;
         })}
-        <JobCard />
       </Grid>
     </Box>
   );

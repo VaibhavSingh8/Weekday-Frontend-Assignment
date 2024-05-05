@@ -13,9 +13,22 @@ import {
 import logo from "../assets/logo.png";
 
 const JobCard = ({ job }) => {
+  console.log(job);
   return (
     <Grid item xs={12} md={6} lg={4}>
-      <Paper elevation={1} sx={{ paddingBlock: 2, borderRadius: 4 }}>
+      <Paper
+        elevation={1}
+        sx={{
+          paddingBlock: 2,
+          borderRadius: 4,
+          transition: " transform 0.3s ease-in-out",
+          "&:hover": {
+            cursor: "pointer",
+            //boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.3)", // Add more elevation on hover
+            transform: "scale(1.03)",
+          },
+        }}
+      >
         <Chip
           label="⏳ Posted 19 days ago"
           variant="outlined"
@@ -23,16 +36,36 @@ const JobCard = ({ job }) => {
           sx={{ marginLeft: 2 }}
         />
         <CardHeader
-          title={job?.companyName || "Weekday"}
+          title={
+            <Typography
+              variant="caption"
+              color="grey"
+              fontWeight="600"
+              sx={{ color: "#8b8b8b", fontSize: "13px", letterSpacing: "1px" }}
+            >
+              {job?.companyName || "Weekday"}
+            </Typography>
+          }
           subheader={
             <Box>
-              <Typography variant="body2" sx={{ textTransform: "capitalize" }}>
-                {job?.jobRole}
+              <Typography
+                variant="body1"
+                sx={{
+                  textTransform: "capitalize",
+                  color: "black",
+                  fontWeight: 400,
+                }}
+              >
+                {job?.jobRole} Engineer
               </Typography>
               <Typography
-                variant="body2"
-                color="textSecondary"
-                sx={{ textTransform: "capitalize" }}
+                sx={{
+                  textTransform: "capitalize",
+                  marginTop: "5px",
+                  color: "black",
+                  fontWeight: 500,
+                  fontSize: "11px",
+                }}
               >
                 {job?.location || ""}
               </Typography>
