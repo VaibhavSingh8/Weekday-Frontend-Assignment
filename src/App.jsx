@@ -1,17 +1,9 @@
-import { Box, Grid } from "@mui/material";
 import "./App.css";
-import JobCard from "./components/JobCard";
+
+import SearchJob from "./pages/SearchJob";
 
 function App() {
-  return (
-    <Box margin={2}>
-      <Grid container spacing={4}>
-        {[...Array(17)].map((_, index) => (
-          <JobCard />
-        ))}
-      </Grid>
-    </Box>
-  );
+  return <SearchJob />;
 }
 
 export default App;
