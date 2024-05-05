@@ -1,4 +1,5 @@
-import { TextField, Autocomplete, Grid } from "@mui/material";
+import React from "react";
+import { Grid, TextField, Autocomplete } from "@mui/material";
 
 const MultiSelect = ({ options, placeholder, value, onChange }) => {
   return (
@@ -10,7 +11,9 @@ const MultiSelect = ({ options, placeholder, value, onChange }) => {
         filterSelectedOptions
         fullWidth
         value={value}
-        onChange={(event, newValue) => onChange(event, newValue)}
+        onChange={(event, newValue) => {
+          onChange(newValue);
+        }}
         renderInput={(params) => (
           <TextField
             {...params}

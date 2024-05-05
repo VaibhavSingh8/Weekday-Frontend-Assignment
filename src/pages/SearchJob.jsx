@@ -1,25 +1,16 @@
-import JobCard from "../components/JobCard";
+import React, { useState } from "react";
 import { Box, Grid } from "@mui/material";
 import useApi from "../api/useApi";
 import MultiSelect from "../components/MultiSelect";
+import JobCard from "../components/JobCard";
 import { roles, salary, experience, jobType } from "../api/data";
-//import useFilteredData from "../utils/useFilteredData";
+import useFilteredData from "../utils/useFilteredData";
 
 const SearchJob = () => {
-  // const initialFilters = {
-  //   roles: [],
-  //   salary: [],
-  //   experience: [],
-  //   jobType: [],
-  // };
-
-  // Configuration for the filter options
-  // const filterConfig = [
-  //   { key: "roles", options: roles, placeholder: "Roles" },
-  //   { key: "salary", options: salary, placeholder: "Minimum Base Pay Salary" },
-  //   { key: "experience", options: experience, placeholder: "Experience" },
-  //   { key: "jobType", options: jobType, placeholder: "Job Type" },
-  // ];
+  const [selectedRoles, setSelectedRoles] = useState();
+  const [selectedExperience, setSelectedExperience] = useState();
+  const [selectedJobType, setSelectedJobType] = useState();
+  const [selectedSalary, setSelectedSalary] = useState();
 
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
@@ -35,17 +26,45 @@ const SearchJob = () => {
     body,
   };
 
-  // Call the useAPI custom hook, passing the API URL and request options
+  // Call the useApi custom hook, passing the API URL and request options
   const { data, loading, error } = useApi(
     "https://api.weekday.technology/adhoc/getSampleJdJSON",
     requestOptions
   );
 
-  // const {
-  //   data: filteredData,
-  //   filters,
-  //   updateFilters,
-  // } = useFilteredData(data?.jdList || [], initialFilters);
+  // Function to handle filter changes
+
+  const handleFilterChange = (key, value) => {
+    switch (key) {
+      case "roles":
+        const roles = value.map((i) => i.title.toLowerCase());
+        setSelectedRoles(roles);
+        break;
+      case "salary":
+        const salaries = value.map((i) => i.value);
+        setSelectedSalary(salaries);
+        break;
+      case "experience":
+        const experience = value.map((i) => i.value);
+        console.log(experience);
+        setSelectedExperience(experience);
+        break;
+      case "jobType":
+        const jobType = value.map((i) => i.title.toLowerCase());
+        setSelectedJobType(jobType);
+        break;
+      default:
+        break;
+    }
+  };
+
+  // Filter data based on selected filters using the custom hook
+  const filteredData = useFilteredData(data?.jdList, {
+    roles: selectedRoles,
+    salary: selectedSalary,
+    experience: selectedExperience,
+    jobType: selectedJobType,
+  });
 
   if (loading) {
     return <div>Loading...</div>;
@@ -55,25 +74,6 @@ const SearchJob = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  const handleFilterChange = (key, value) => {
-    value?.map((i) => {
-      console.log(i);
-      var title = i.title.toLowerCase();
-      var salary = "";
-      var experience = "";
-      var job_type = "";
-
-      var jobs = data.jdList;
-      const result = jobs.filter(function (obj, index) {
-        var newarr = [];
-        newarr.append(obj.jobRole == title);
-      });
-      console.log(result);
-    });
-
-    updateFilters(key, value);
-  };
-
   return (
     <Box margin={2}>
       <Grid container spacing={2} paddingX={1}>
@@ -81,35 +81,38 @@ const SearchJob = () => {
           key="roles"
           options={roles}
           placeholder="Roles"
-          value={[]}
-          onChange={(value) => handleFilterChange(c, value)}
+          value={selectedRoles}
+          //onChange={(value) => handleFilterChange('roles', value)}
+          // onChange={(value) => handleFilterChange('roles', value.map(item => item.title.toLowerCase()))}
+          onChange={(value) => handleFilterChange("roles", value)}
         />
         <MultiSelect
           key="salary"
           options={salary}
           placeholder="Minimum Base Pay Salary"
-          value={[]}
-          onChange={(value) => handleFilterChange(key, value)}
+          value={selectedSalary}
+          // onChange={(value) => handleFilterChange('salary',  value.map(item => item.value))}
+          onChange={(value) => handleFilterChange("salary", value)}
         />
         <MultiSelect
           key="experience"
           options={experience}
           placeholder="Experience"
-          value={[]}
-          onChange={(value) => handleFilterChange(key, value)}
+          value={selectedExperience}
+          onChange={(value) => handleFilterChange("experience", value)}
         />
         <MultiSelect
           key="jobType"
           options={jobType}
           placeholder="Job Type"
-          value={[]}
-          onChange={(value) => handleFilterChange(key, value)}
+          value={selectedJobType}
+          onChange={(value) => handleFilterChange("jobType", value)}
         />
       </Grid>
       <Grid container spacing={4}>
-        {data?.jdList?.map((job) => {
-          return <JobCard key={job?.jdUid} job={job} />;
-        })}
+        {filteredData?.map((job) => (
+          <JobCard key={job?.jdUid} job={job} />
+        ))}
       </Grid>
     </Box>
   );

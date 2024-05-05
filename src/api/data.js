@@ -15,29 +15,18 @@ export const roles = [
   { title: "Data Science" }
 ];
 
-// Employees data
-export const employees = [
-  { title: "1-10" },
-  { title: "11-20" },
-  { title: "21-50" },
-  { title: "51-100" },
-  { title: "101-200" },
-  { title: "201-500" },
-  { title: "500+" }
-];
-
 // Experience data
 export const experience = [
-  { title: "1 year" },
-  { title: "2 years" },
-  { title: "3 years" },
-  { title: "4 years" },
-  { title: "5 years" },
-  { title: "6 years" },
-  { title: "7 years" },
-  { title: "8 years" },
-  { title: "9 years" },
-  { title: "10+ years" }
+  { title: "1 year", value: 1 },
+  { title: "2 years", value: 2 },
+  { title: "3 years", value: 3 },
+  { title: "4 years", value: 4 },
+  { title: "5 years", value: 5 },
+  { title: "6 years", value: 6 },
+  { title: "7 years", value: 7 },
+  { title: "8 years", value: 8 },
+  { title: "9 years", value: 9 },
+  { title: "10+ years", value: 10 }
 ];
 
 // Job Type data
@@ -49,13 +38,12 @@ export const jobType = [
 
 // Salary data
 export const salary = [
-  { title: "0L" },
-  { title: "10L" },
-  { title: "20L" },
-  { title: "30L" },
-  { title: "40L" },
-  { title: "50L" },
-  { title: "60L" },
-  { title: "70L+" }
+  { title: "0L", value: 0 },
+  { title: "10L", value: 10 },
+  { title: "20L", value: 20 },
+  { title: "30L", value: 30 },
+  { title: "40L", value: 40 },
+  { title: "50L", value: 50 },
+  { title: "60L", value: 60 },
+  { title: "70L+", value: 70 }
 ];
-
