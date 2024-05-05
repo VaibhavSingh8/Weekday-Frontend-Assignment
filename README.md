@@ -1,6 +1,6 @@
-# Weekday Assignment
+# Weekday Frontend Assignment
 
-This repository contains an assignment for a weekday project. It involves a project setup that you can easily clone and run to explore the functionality.
+This repository contains an assignment. The assignment is to create a job listing page using the provided API. The application should display the job listings in a grid format and allow the user to filter the data based on the selected category. Also, the application should use infinite scrolling to load more data as the user scrolls down the page.
 
 ## Live Demo
 
