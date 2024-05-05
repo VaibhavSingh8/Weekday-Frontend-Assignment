@@ -10,12 +10,7 @@ const MultiSelect = ({ options, placeholder, value, onChange }) => {
         filterSelectedOptions
         fullWidth
         value={value}
-        onChange={(event, newValue) => onChange(newValue)}
-        renderOption={(props, option) => (
-          <li {...props} key={option.id}>
-            {option.title}
-          </li>
-        )}
+        onChange={(event, newValue) => onChange(event, newValue)}
         renderInput={(params) => (
           <TextField
             {...params}
