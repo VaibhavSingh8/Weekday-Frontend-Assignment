@@ -82,7 +82,7 @@ const SearchJob = () => {
           options={roles}
           placeholder="Roles"
           value={[]}
-          onChange={(value) => handleFilterChange(key, value)}
+          onChange={(value) => handleFilterChange(c, value)}
         />
         <MultiSelect
           key="salary"
