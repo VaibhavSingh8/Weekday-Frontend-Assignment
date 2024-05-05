@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Grid } from "@mui/material";
 import useApi from "../api/useApi";
 import MultiSelect from "../components/MultiSelect";
@@ -11,46 +11,48 @@ const SearchJob = () => {
   const [selectedExperience, setSelectedExperience] = useState();
   const [selectedJobType, setSelectedJobType] = useState();
   const [selectedSalary, setSelectedSalary] = useState();
+  const [page, setPage] = useState(0);
 
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
-
-  const body = JSON.stringify({
-    limit: 9,
-    offset: 0,
-  });
-
+  const body = JSON.stringify({ limit: 9, offset: page * 9 });
   const requestOptions = {
     method: "POST",
     headers: myHeaders,
     body,
   };
 
-  // Call the useApi custom hook, passing the API URL and request options
+  // Call the useApi custom hook inside the component function
   const { data, loading, error } = useApi(
     "https://api.weekday.technology/adhoc/getSampleJdJSON",
     requestOptions
   );
 
-  // Function to handle filter changes
+  // Append new data when fetched
+  const [allData, setAllData] = useState([]);
+  useEffect(() => {
+    if (data && data.jdList) {
+      setAllData((prev) => [...prev, ...data.jdList]);
+    }
+  }, [data]);
 
+  // Function to handle filter changes
   const handleFilterChange = (key, value) => {
     switch (key) {
       case "roles":
-        const roles = value.map((i) => i.title.toLowerCase());
+        const roles = value.map((val) => val.title.toLowerCase());
         setSelectedRoles(roles);
         break;
       case "salary":
-        const salaries = value.map((i) => i.value);
+        const salaries = value.map((val) => val.value);
         setSelectedSalary(salaries);
         break;
       case "experience":
-        const experience = value.map((i) => i.value);
-        console.log(experience);
+        const experience = value.map((val) => val.value);
         setSelectedExperience(experience);
         break;
       case "jobType":
-        const jobType = value.map((i) => i.title.toLowerCase());
+        const jobType = value.map((val) => val.title.toLowerCase());
         setSelectedJobType(jobType);
         break;
       default:
@@ -58,15 +60,33 @@ const SearchJob = () => {
     }
   };
 
+  // Infinite scroll using the scroll event listener
+  useEffect(() => {
+    const handleInfiniteScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop >=
+          document.documentElement.scrollHeight - 5 &&
+        !loading
+      ) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    };
+
+    window.addEventListener("scroll", handleInfiniteScroll);
+    return () => {
+      window.removeEventListener("scroll", handleInfiniteScroll);
+    };
+  }, [loading]);
+
   // Filter data based on selected filters using the custom hook
-  const filteredData = useFilteredData(data?.jdList, {
+  const filteredData = useFilteredData(allData, {
     roles: selectedRoles,
     salary: selectedSalary,
     experience: selectedExperience,
     jobType: selectedJobType,
   });
 
-  if (loading) {
+  if (loading && page === 0) {
     return <div>Loading...</div>;
   }
 
@@ -82,8 +102,6 @@ const SearchJob = () => {
           options={roles}
           placeholder="Roles"
           value={selectedRoles}
-          //onChange={(value) => handleFilterChange('roles', value)}
-          // onChange={(value) => handleFilterChange('roles', value.map(item => item.title.toLowerCase()))}
           onChange={(value) => handleFilterChange("roles", value)}
         />
         <MultiSelect
@@ -91,7 +109,6 @@ const SearchJob = () => {
           options={salary}
           placeholder="Minimum Base Pay Salary"
           value={selectedSalary}
-          // onChange={(value) => handleFilterChange('salary',  value.map(item => item.value))}
           onChange={(value) => handleFilterChange("salary", value)}
         />
         <MultiSelect

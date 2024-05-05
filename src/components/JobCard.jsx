@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   CardContent,
   CardHeader,
@@ -13,6 +13,7 @@ import {
 import logo from "../assets/logo.png";
 
 const JobCard = ({ job }) => {
+  const [showMore, setShowMore] = useState(false);
   return (
     <Grid item xs={12} md={6} lg={4}>
       <Paper
@@ -96,10 +97,46 @@ const JobCard = ({ job }) => {
             <Typography variant="body2">
               <strong>About us</strong>
             </Typography>
-            <Typography variant="body2">
+            <Box
+              sx={{
+                maskImage: showMore
+                  ? "none"
+                  : "linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255), rgba(255, 255, 255, 0))",
+              }}
+            >
+              <Typography variant="body1" sx={{ mt: 0.5 }}>
+                {job?.jobDetailsFromCompany
+                  ? showMore
+                    ? job?.jobDetailsFromCompany
+                    : `${job?.jobDetailsFromCompany?.slice(0, 400)}...`
+                  : ""}
+              </Typography>
+            </Box>
+
+            <Box
+              sx={{
+                position: "relative",
+                bottom: "20px",
+                display: "flex",
+                justifyContent: "center",
+                width: "100%",
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "primary.main",
+                  cursor: "pointer",
+                }}
+                onClick={() => setShowMore((prev) => !prev)}
+              >
+                {showMore ? "Show Less" : "Show More"}
+              </Typography>
+            </Box>
+            {/* <Typography variant="body2">
               {job?.jobDetailsFromCompany ||
                 "This is a sample job and you must have displayed it to understand that its not just some random lorem ipsum text but something which was manually written. Oh well, if random text is what you were looking for then here it is: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages and now in this assignment."}
-            </Typography>
+            </Typography> */}
           </Box>
           <Box mt={2}>
             <Typography variant="body2">Minimum Experience</Typography>

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
-//custom hook to fetch data from an API
+//custom hook to fetch data from an A
 
-const useAPI = (url, options) => {
+const useApi = (url, options) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -10,25 +10,25 @@ const useAPI = (url, options) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(url, options);
-        const data = await response.json();
-        setData(data);
+        setLoading(true);
+        const response = await fetch(url, {
+          method: options.method,
+          headers: options.headers,
+          body: options.body,
+        });
+        const jsonData = await response.json();
+
+        setData(jsonData);
         setLoading(false);
-      } catch (error) {
-        setError(error);
+      } catch (err) {
+        setError(err);
         setLoading(false);
       }
     };
 
-    // Check if the URL or options have changed before calling the API
-    const shouldFetch = !data && !error;
-
-    if (shouldFetch) {
-      fetchData();
-    }
-  }, [url, options]);
-
+    fetchData();
+  }, [url, JSON.stringify(options)]);
   return { data, loading, error };
 };
 
-export default useAPI;
+export default useApi;
