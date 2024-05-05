@@ -13,7 +13,6 @@ import {
 import logo from "../assets/logo.png";
 
 const JobCard = ({ job }) => {
-  console.log(job);
   return (
     <Grid item xs={12} md={6} lg={4}>
       <Paper
@@ -24,7 +23,6 @@ const JobCard = ({ job }) => {
           transition: " transform 0.3s ease-in-out",
           "&:hover": {
             cursor: "pointer",
-            //boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.3)", // Add more elevation on hover
             transform: "scale(1.03)",
           },
         }}
