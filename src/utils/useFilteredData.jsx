@@ -1,62 +1,47 @@
-// import { useState, useEffect } from "react";
+import { useEffect, useState } from 'react';
+import { salary } from '../api/data';
 
-// const useFilteredData = (initialData, initialFilters) => {
-//   const [data, setData] = useState(initialData);
-//   const [filters, setFilters] = useState(initialFilters);
+const useFilteredData = (jobs, filters) => {
+  const [filteredJobs, setFilteredJobs] = useState(jobs);
 
-//   useEffect(() => {
-//     // Filtering logic
-//     let filteredData = initialData;
+  useEffect(() => {
+    let updatedJobs = jobs;
 
-//     // Filter by roles
-//     if (filters.roles.length > 0) {
-//       filteredData = filteredData.filter((job) =>
-//         filters.roles.some((role) => job?.jobRole?.includes(role.title))
-//       );
-//     }
+    // Filter by job role
+    if (filters?.roles?.length > 0) {
+      updatedJobs = updatedJobs.filter(job =>
+        filters.roles.includes(job.jobRole)
+      );
+    }
 
-//     // Filter by salary
-//     if (filters.salary.length > 0) {
-//       filteredData = filteredData.filter((job) =>
-//         filters.salary.some((salary) => {
-//           const salaryValue = salary.title.replace(/[^0-9]/g, "");
-//           const salaryInLakhs = parseInt(salaryValue, 10);
-//           return (
-//             job?.minJdSalary >= salaryInLakhs &&
-//             job?.maxJdSalary <= salaryInLakhs
-//           );
-//         })
-//       );
-//     }
+    // Filter by salary
+    if (filters?.salary?.length > 0) {
+        updatedJobs = updatedJobs.filter(job => {
+                  // Check if minJdSalary is null or included in the selected salary values
+        return job.minJdSalary === null || filters.salary.includes(job.minJdSalary);
+    });
+  }
+  
 
-//     // Filter by experience
-//     if (filters.experience.length > 0) {
-//       filteredData = filteredData.filter((job) =>
-//         filters.experience.some((exp) => {
-//           const expValue = exp.title.replace(/[^0-9]/g, "");
-//           return job?.minExp >= parseInt(expValue, 10);
-//         })
-//       );
-//     }
+    // Filter by experience
+    if (filters?.experience?.length > 0) {
+      updatedJobs = updatedJobs.filter(job =>
+        filters.experience.includes(job.minExp)
+      );
+    }
 
-//     // Filter by jobType
-//     if (filters.jobType.length > 0) {
-//       filteredData = filteredData.filter((job) =>
-//         filters.jobType.some((type) => job?.jobType?.includes(type.title))
-//       );
-//     }
+    // Filter by job type
+    if (filters?.jobType?.length > 0) {
+      updatedJobs = updatedJobs.filter(job =>
+        filters.jobType.includes(job.location)
+      );
+    }
 
-//     setData(filteredData);
-//   }, [initialData, filters]);
+    // Update state with filtered jobs
+    setFilteredJobs(updatedJobs);
+  }, [jobs, filters]);
 
-//   const updateFilters = (key, value) => {
-//     setFilters((prevFilters) => ({
-//       ...prevFilters,
-//       [key]: value,
-//     }));
-//   };
+  return filteredJobs;
+};
 
-//   return { data, filters, updateFilters };
-// };
-
-// export default useFilteredData;
+export default useFilteredData;
