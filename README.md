@@ -1,8 +1,51 @@
-# React + Vite
+# Weekday Assignment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains an assignment for a weekday project. It involves a project setup that you can easily clone and run to explore the functionality.
 
-Currently, two official plugins are available:
+## Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+You can check out the live demo of this project [here](https://weekday-frontend-assignment-navy.vercel.app/).
+
+## Features ⚙️
+
+- **Data Fetching**: The application fetches data from the provided API.
+- **Job Listing**: The application displays the job listings in a grid format.
+- **Responsive Design**: The application is designed to work on all devices.
+- **Filtering**: The application allows you to filter the data based on the selected category.
+- **Infinite Scrolling**: The application uses infinite scrolling to load more data as you scroll down the page.
+
+## Technologies Used:
+
+React, Material-UI,
+
+## Getting Started
+
+To get started with this project, follow these instructions:
+
+1. Clone this repository to your local machine:
+
+   ```sh
+   git clone https://github.com/VaibhavSingh8/Weekday-Frontend-Assignment.git
+   ```
+
+2. Navigate into the cloned repository:
+
+   ```sh
+   cd Weekday-Frontend-Assignment
+   ```
+
+3. Install the project dependencies:
+
+   ```sh
+   npm install
+   ```
+
+### Running the Application
+
+Once you've installed the dependencies, you can run the application using the following command:
+
+```sh
+npm run dev
+```
+
+Your application should now be running on [ http://localhost:5173/](http://localhost:).
