@@ -1,27 +1,21 @@
-import React, { useState } from "react";
 import JobCard from "../components/JobCard";
 import { Box, Grid } from "@mui/material";
 import useApi from "../api/useApi";
 import MultiSelect from "../components/MultiSelect";
 import { roles, salary, experience, jobType, employees } from "../api/data";
+import useFilteredData from "../utils/useFilteredData";
 
 const SearchJob = () => {
-  const [filters, setFilters] = useState({
+  const initialFilters = {
     roles: [],
-    employees: [],
     salary: [],
     experience: [],
     jobType: [],
-  });
+  };
 
   // Configuration for the filter options
   const filterConfig = [
     { key: "roles", options: roles, placeholder: "Roles" },
-    {
-      key: "employees",
-      options: employees,
-      placeholder: "Number of Employees",
-    },
     { key: "salary", options: salary, placeholder: "Minimum Base Pay Salary" },
     { key: "experience", options: experience, placeholder: "Experience" },
     { key: "jobType", options: jobType, placeholder: "Job Type" },
@@ -47,6 +41,12 @@ const SearchJob = () => {
     requestOptions
   );
 
+  const {
+    data: filteredData,
+    filters,
+    updateFilters,
+  } = useFilteredData(data?.jdList || [], initialFilters);
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -54,6 +54,10 @@ const SearchJob = () => {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
+
+  const handleFilterChange = (key, value) => {
+    updateFilters(key, value);
+  };
 
   return (
     <Box margin={2}>
@@ -64,6 +68,8 @@ const SearchJob = () => {
               key={config.key}
               options={config.options}
               placeholder={config.placeholder}
+              value={filters[config.key]}
+              onChange={(value) => handleFilterChange(config.key, value)}
             />
           );
         })}
