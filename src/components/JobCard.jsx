@@ -87,14 +87,24 @@ const JobCard = ({ job }) => {
 
         <CardContent>
           <Box mt={-2}>
-            <Typography variant="body1">
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: 400,
+                fontSize: "14px",
+                color: "#8b8b8b",
+                fontWeight: 300,
+              }}
+            >
               Estimated Salary: {job?.minJdSalary && `₹${job.minJdSalary} - `}
               {job?.maxJdSalary} LPA ✅
             </Typography>
           </Box>
           <Box mt={2}>
-            <Typography variant="body1">About Company:</Typography>
-            <Typography variant="body2">
+            <Typography variant="body1" sx={{ fontSize: "1rem" }}>
+              About Company:
+            </Typography>
+            <Typography variant="body2" sx={{ fontWeight: "bold" }}>
               <strong>About us</strong>
             </Typography>
             <Box
@@ -104,7 +114,10 @@ const JobCard = ({ job }) => {
                   : "linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255), rgba(255, 255, 255, 0))",
               }}
             >
-              <Typography variant="body1" sx={{ mt: 0.5 }}>
+              <Typography
+                variant="body1"
+                sx={{ mt: 0.5, fontSize: "14px", fontWeight: 300 }}
+              >
                 {job?.jobDetailsFromCompany
                   ? showMore
                     ? job?.jobDetailsFromCompany
@@ -116,7 +129,7 @@ const JobCard = ({ job }) => {
             <Box
               sx={{
                 position: "relative",
-                bottom: "20px",
+                bottom: "2px",
                 display: "flex",
                 justifyContent: "center",
                 width: "100%",
@@ -133,10 +146,6 @@ const JobCard = ({ job }) => {
                 {showMore ? "Show Less" : "Show More"}
               </Typography>
             </Box>
-            {/* <Typography variant="body2">
-              {job?.jobDetailsFromCompany ||
-                "This is a sample job and you must have displayed it to understand that its not just some random lorem ipsum text but something which was manually written. Oh well, if random text is what you were looking for then here it is: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages and now in this assignment."}
-            </Typography> */}
           </Box>
           <Box mt={2}>
             <Typography variant="body2">Minimum Experience</Typography>
