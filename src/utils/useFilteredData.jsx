@@ -23,8 +23,8 @@ const useFilteredData = (jobs, filters) => {
     // Filter by experience
     if (filters?.experience?.length > 0) {
       updatedJobs = updatedJobs.filter((job) => {
-        return filters.experience.some(
-          (experience) => job.minExp <= experience
+        return filters.experience.every(
+          (experience) => job.minExp >= experience
         );
       });
     }
